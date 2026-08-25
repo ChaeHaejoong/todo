@@ -2,6 +2,15 @@ package app
 
 import tea "github.com/charmbracelet/bubbletea"
 
+func (m Model) windowSizeUpdate(msg tea.Msg) Model {
+	if windowSizeMsg, ok := msg.(tea.WindowSizeMsg); ok {
+		m.width = windowSizeMsg.Width
+		m.height = windowSizeMsg.Height
+	}
+
+	return m
+}
+
 func (m Model) appUpdate(msg tea.Msg) (Model, tea.Cmd) {
 	if keyMsg, ok := msg.(tea.KeyMsg); ok {
 		key := keyMsg.String()

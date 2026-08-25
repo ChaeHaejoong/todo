@@ -13,6 +13,9 @@ const (
 )
 
 type Model struct {
+	width  int
+	height int
+
 	focus     Focus
 	todomodal todomodal.Model
 }
@@ -29,6 +32,8 @@ func (m Model) Init() tea.Cmd {
 }
 
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	m = m.windowSizeUpdate(msg)
+
 	var appCmd tea.Cmd
 	m, appCmd = m.appUpdate(msg)
 
