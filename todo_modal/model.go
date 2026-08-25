@@ -10,6 +10,13 @@ type Model struct {
 	input       textinput.Model
 }
 
+func New() Model {
+	return Model{
+		isModalOpen: false,
+		input:       textinput.New(),
+	}
+}
+
 func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 	if !m.isModalOpen {
 		return m, nil
@@ -32,9 +39,9 @@ func (m Model) View() string {
 	return "Modal"
 }
 
-func (m *Model) OpenModal() {
+func (m *Model) OpenModal() tea.Cmd {
 	m.isModalOpen = true
-	m.input.Focus()
+	return m.input.Focus()
 }
 
 func (m Model) IsModalOpen() bool {

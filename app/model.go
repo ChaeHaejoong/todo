@@ -5,9 +5,23 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
+type Focus int
+
+const (
+	FocusMain Focus = iota
+	FocusTodoModal
+)
+
 type Model struct {
-	focus     int
+	focus     Focus
 	todomodal todomodal.Model
+}
+
+func New() Model {
+	return Model{
+		focus:     FocusMain,
+		todomodal: todomodal.New(),
+	}
 }
 
 func (m Model) Init() tea.Cmd {
@@ -15,11 +29,15 @@ func (m Model) Init() tea.Cmd {
 }
 
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	var cmd tea.Cmd
+	var appCmd tea.Cmd
+	m, appCmd = m.appUpdate(msg)
 
-	m, cmd = m.appUpdate(msg)
-	m.todomodal, cmd = m.todomodal.Update(msg)
-	return m, cmd
+	var componentCmd tea.Cmd
+	if m.focus == FocusTodoModal {
+		m.todomodal, componentCmd = m.todomodal.Update(msg)
+	}
+
+	return m, tea.Batch(appCmd, componentCmd)
 }
 
 func (m Model) View() string {

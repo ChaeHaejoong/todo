@@ -11,8 +11,8 @@ func (m Model) appUpdate(msg tea.Msg) (Model, tea.Cmd) {
 		}
 
 		if !m.todomodal.IsModalOpen() && isOpenTodoModalKey(key) {
-			m.todomodal.OpenModal()
-			return m, nil
+			m.focus = FocusTodoModal
+			return m, m.todomodal.OpenModal()
 		}
 	}
 
