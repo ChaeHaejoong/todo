@@ -14,7 +14,7 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 		}
 
 		if isAppendTodoKey(key) {
-			if err := m.AppendTodo(m.input.Value()); err != nil {
+			if err := AppendTodo(m.input.Value()); err != nil {
 				return m, nil
 			}
 			m.CloseModal()

@@ -34,7 +34,7 @@ func (m Model) IsModalOpen() bool {
 	return m.isModalOpen
 }
 
-func (m Model) AppendTodo(todoStr string) error {
+func AppendTodo(todoStr string) error {
 	return store.AppendTodo(todoStr)
 }
 
