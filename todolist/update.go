@@ -5,6 +5,18 @@ import (
 )
 
 func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
+	switch msg := msg.(type) {
+	case TodoListLoadedMsg:
+		m.todos = msg.Data.Todos
+		m.loading = false
+		m.err = nil
+		return m, nil
+	case TodoListLoadFailedMsg:
+		m.loading = false
+		m.err = msg.err
+		return m, nil
+	}
+
 	keyPressMsg, ok := msg.(tea.KeyPressMsg)
 	if !ok {
 		return m, nil

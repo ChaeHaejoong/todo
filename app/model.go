@@ -2,7 +2,6 @@ package app
 
 import (
 	"github.com/chaehaejoong/todo/internal/focus"
-	// "github.com/chaehaejoong/todo/store"
 	"github.com/chaehaejoong/todo/todolist"
 	"github.com/chaehaejoong/todo/todomodal"
 	tea "charm.land/bubbletea/v2"
@@ -27,8 +26,7 @@ func New() Model {
 }
 
 func (m Model) Init() tea.Cmd {
-	// data := store.LoadTodos()
-	return nil
+	return m.todolist.Init() 
 }
 
 
