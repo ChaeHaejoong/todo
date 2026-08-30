@@ -1,50 +1,35 @@
 package app
 
 import (
-	todomodal "github.com/chaehaejoong/todo/todo_modal"
-	tea "github.com/charmbracelet/bubbletea"
-)
-
-type Focus int
-
-const (
-	FocusMain Focus = iota
-	FocusTodoModal
+	"github.com/chaehaejoong/todo/internal/focus"
+	// "github.com/chaehaejoong/todo/store"
+	"github.com/chaehaejoong/todo/todolist"
+	"github.com/chaehaejoong/todo/todomodal"
+	tea "charm.land/bubbletea/v2"
 )
 
 type Model struct {
 	width  int
 	height int
 
-	focus     Focus
+	focus focus.Manager
+
+	todolist  todolist.Model
 	todomodal todomodal.Model
 }
 
 func New() Model {
 	return Model{
-		focus:     FocusMain,
+		focus:     focus.New(),
+		todolist:  todolist.New(),
 		todomodal: todomodal.New(),
 	}
 }
 
 func (m Model) Init() tea.Cmd {
+	// data := store.LoadTodos()
 	return nil
 }
 
-func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	m = m.windowSizeUpdate(msg)
 
-	var appCmd tea.Cmd
-	m, appCmd = m.appUpdate(msg)
 
-	var componentCmd tea.Cmd
-	if m.focus == FocusTodoModal {
-		m.todomodal, componentCmd = m.todomodal.Update(msg)
-	}
-
-	return m, tea.Batch(appCmd, componentCmd)
-}
-
-func (m Model) View() string {
-	return "hello" + m.todomodal.View()
-}
