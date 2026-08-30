@@ -10,7 +10,6 @@ func AppendTodo(todoStr string) error {
 	todo := Todo{
 		ID: uuid.NewString(),
 		Content: todoStr,
-		Completed: false,
 	}
 
 	data, err := load()
