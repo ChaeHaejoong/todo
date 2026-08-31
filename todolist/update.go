@@ -9,6 +9,11 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case TodoListLoadedMsg:
 		m.todos = msg.Data.Todos
+		if len(m.todos) == 0 {
+			m.cursor = 0
+		} else {
+			m.cursor = min(m.cursor, len(m.todos)-1)
+		}
 		m.loading = false
 		m.err = nil
 		return m, nil
@@ -21,9 +26,25 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 	case todo.TodoSubmittedMsg:
 		return m, loadTodosCmd()
 
+	case todo.TodoRemoveMsg:
+		return m, loadTodosCmd()
+
+	case TodoRemoveFailedMsg:
+		m.err = msg.err
+		return m, nil
+
 	case tea.KeyPressMsg:
 		if isOpenModalKey(msg.String()) {
 			return m, func() tea.Msg { return OpenTodoModalMsg{} }
+		}
+
+		if isDeleteKey(msg.String()) {
+			selected, ok := m.selectedTodo()
+			if !ok {
+				return m, nil
+			}
+
+			return m, removeTodoCmd(selected)
 		}
 
 		if isCursorDownKey(msg.String()) {

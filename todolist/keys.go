@@ -11,3 +11,7 @@ func isCursorDownKey(key string) bool {
 func isCursorUpKey(key string) bool {
 	return key == "k" || key == "up"
 }
+
+func isDeleteKey(key string) bool {
+	return key == "d"
+}

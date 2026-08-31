@@ -11,3 +11,7 @@ type TodoListLoadedMsg struct {
 type TodoListLoadFailedMsg struct {
 	err error
 }
+
+type TodoRemoveFailedMsg struct {
+	err error
+}

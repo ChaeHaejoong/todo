@@ -29,3 +29,11 @@ func (m Model) View(focused bool) string {
 
 	return renderTodoList(renderTodos(m.todos, m.cursor), focused)
 }
+
+func (m Model) selectedTodo() (store.Todo, bool) {
+	if m.cursor < 0 || m.cursor >= len(m.todos) {
+		return store.Todo{}, false
+	}
+
+	return m.todos[m.cursor], true
+}

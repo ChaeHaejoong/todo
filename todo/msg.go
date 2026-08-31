@@ -1,5 +1,5 @@
 package todo
 
-type TodoSubmittedMsg struct {
-	Content string
-}
+type TodoSubmittedMsg struct {}
+
+type TodoRemoveMsg struct {}
