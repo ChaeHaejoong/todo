@@ -19,6 +19,7 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 				return m, nil
 			}
 			m.CloseModal()
+			m.input.SetValue("")
 			return m, func() tea.Msg { return todo.TodoSubmittedMsg{} }
 		}
 	}
