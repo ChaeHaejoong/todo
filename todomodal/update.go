@@ -2,6 +2,7 @@ package todomodal
 
 import (
 	tea "charm.land/bubbletea/v2"
+	"github.com/chaehaejoong/todo/todo"
 )
 
 func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
@@ -18,7 +19,7 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 				return m, nil
 			}
 			m.CloseModal()
-			return m, nil
+			return m, func() tea.Msg { return todo.TodoSubmittedMsg{} }
 		}
 	}
 

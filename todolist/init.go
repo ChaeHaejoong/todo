@@ -6,6 +6,10 @@ import (
 )
 
 func (m Model) Init() tea.Cmd {
+	return loadTodosCmd()
+}
+
+func loadTodosCmd() tea.Cmd {
 	return func() tea.Msg {
 		data, err := store.LoadTodos()
 		if err != nil {
