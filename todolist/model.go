@@ -4,6 +4,7 @@ import "github.com/chaehaejoong/todo/store"
 
 type Model struct {
 	todos   []store.Todo
+	cursor  int
 	loading bool
 	err     error
 }
@@ -26,5 +27,5 @@ func (m Model) View(focused bool) string {
 		)
 	}
 
-	return renderTodoList(renderTodos(m.todos), focused)
+	return renderTodoList(renderTodos(m.todos, m.cursor), focused)
 }

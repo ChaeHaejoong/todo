@@ -1,7 +1,6 @@
 package todolist
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/chaehaejoong/todo/internal/ui"
@@ -12,14 +11,15 @@ func renderTodoList(content string, focused bool) string {
 	return ui.TitledBorder(100, 10, "[1] Todo", content, focused)
 }
 
-func renderTodos(todos []store.Todo) string {
+func renderTodos(todos []store.Todo, cursor int) string {
 	if len(todos) == 0 {
 		return "Nothing to do"
 	}
 
 	lines := make([]string, 0, len(todos))
-	for _, todo := range todos {
-		lines = append(lines, fmt.Sprintf("- %s", todo.Content))
+	for index, todo := range todos {
+		content := "- " + todo.Content
+		lines = append(lines, ui.ListElement(content, index == cursor))
 	}
 
 	return strings.Join(lines, "\n")
