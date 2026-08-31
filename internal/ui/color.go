@@ -4,6 +4,6 @@ import "charm.land/lipgloss/v2"
 
 var ColorFocused = lipgloss.Color("10")
 var ColorNormal = lipgloss.Color("7")
-
+var ColorCursored = lipgloss.Color("12")
 
 
