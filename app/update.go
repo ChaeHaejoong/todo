@@ -58,6 +58,11 @@ func (m Model) appUpdate(msg tea.Msg) (Model, tea.Cmd) {
 			m.focus.Set(focus.Calendar)
 			return m, nil
 		}
+
+		if isAppointmentFocusKey(key) {
+			m.focus.Set(focus.Appointment)
+			return m, nil
+		}
 	}
 
 	if _, ok := msg.(todolist.OpenTodoModalMsg); ok {

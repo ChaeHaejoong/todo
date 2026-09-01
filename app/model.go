@@ -2,6 +2,7 @@ package app
 
 import (
 	tea "charm.land/bubbletea/v2"
+	"github.com/chaehaejoong/todo/appointment"
 	"github.com/chaehaejoong/todo/calendar"
 	"github.com/chaehaejoong/todo/internal/focus"
 	"github.com/chaehaejoong/todo/todolist"
@@ -14,9 +15,10 @@ type Model struct {
 
 	focus focus.Manager
 
-	todolist  todolist.Model
-	todomodal todomodal.Model
-	calendar  calendar.Model
+	todolist    todolist.Model
+	todomodal   todomodal.Model
+	calendar    calendar.Model
+	appointment appointment.Model
 }
 
 func New() Model {

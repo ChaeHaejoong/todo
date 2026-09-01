@@ -6,6 +6,7 @@ const (
 	TodoList Target = iota
 	TodoModal
 	Calendar
+	Appointment
 )
 
 type Manager struct {

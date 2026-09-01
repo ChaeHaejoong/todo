@@ -6,9 +6,10 @@ import (
 )
 
 type AppViews struct {
-	TodoList  string
-	TodoModal string
-	Calendar  string
+	TodoList    string
+	TodoModal   string
+	Calendar    string
+	Appointment string
 }
 
 func (m Model) renderApp() string {
@@ -21,19 +22,29 @@ func (m Model) renderApp() string {
 	todoListWidth := appWidth - calendarWidth
 	todoListHeight := appHeight
 
+	appointmentWidth := calendarWidth
+	appointmentHeight := appHeight - calendarHeight
+
 	modalWidth := 40
 	modalHeight := 3
 
 	views := AppViews{
-		TodoList:  m.todolist.View(todoListWidth, todoListHeight, m.focus.Is(focus.TodoList)),
-		TodoModal: m.todomodal.View(modalWidth, modalHeight, m.focus.Is(focus.TodoModal)),
-		Calendar:  m.calendar.View(calendarWidth, calendarHeight, m.focus.Is(focus.Calendar)),
+		TodoList:    m.todolist.View(todoListWidth, todoListHeight, m.focus.Is(focus.TodoList)),
+		TodoModal:   m.todomodal.View(modalWidth, modalHeight, m.focus.Is(focus.TodoModal)),
+		Calendar:    m.calendar.View(calendarWidth, calendarHeight, m.focus.Is(focus.Calendar)),
+		Appointment: m.appointment.View(appointmentWidth, appointmentHeight, m.focus.Is(focus.Appointment)),
 	}
+
+	rightContent := lipgloss.JoinVertical(
+		lipgloss.Right,
+		views.Calendar,
+		views.Appointment,
+	)
 
 	mainContent := lipgloss.JoinHorizontal(
 		lipgloss.Top,
 		views.TodoList,
-		views.Calendar,
+		rightContent,
 	)
 
 	background := lipgloss.Place(

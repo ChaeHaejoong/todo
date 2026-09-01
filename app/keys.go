@@ -11,3 +11,7 @@ func isTodoListFocusKey(key string) bool {
 func isCalendarFocusKey(key string) bool {
 	return key == "2"
 }
+
+func isAppointmentFocusKey(key string) bool {
+	return key == "3"
+}
