@@ -1,10 +1,11 @@
 package app
 
 import (
+	tea "charm.land/bubbletea/v2"
+	"github.com/chaehaejoong/todo/calendar"
 	"github.com/chaehaejoong/todo/internal/focus"
 	"github.com/chaehaejoong/todo/todolist"
 	"github.com/chaehaejoong/todo/todomodal"
-	tea "charm.land/bubbletea/v2"
 )
 
 type Model struct {
@@ -15,6 +16,7 @@ type Model struct {
 
 	todolist  todolist.Model
 	todomodal todomodal.Model
+	calendar  calendar.Model
 }
 
 func New() Model {
@@ -22,12 +24,10 @@ func New() Model {
 		focus:     focus.New(),
 		todolist:  todolist.New(),
 		todomodal: todomodal.New(),
+		calendar:  calendar.New(),
 	}
 }
 
 func (m Model) Init() tea.Cmd {
-	return m.todolist.Init() 
+	return m.todolist.Init()
 }
-
-
-

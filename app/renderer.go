@@ -8,12 +8,18 @@ import (
 func renderApp(width, height int, views AppViews) string {
 	contentWidth, contentHeight := appContentSize(width, height)
 
+	mainContent := lipgloss.JoinHorizontal(
+		lipgloss.Top,
+		views.TodoList,
+		views.Calendar,
+	)
+
 	background := lipgloss.Place(
 		contentWidth,
 		contentHeight,
 		lipgloss.Left,
 		lipgloss.Top,
-		views.TodoList,
+		mainContent,
 	)
 
 	layers := []*lipgloss.Layer{

@@ -32,13 +32,31 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, todoListCmd
 	}
 
+	if m.focus.Is(focus.Calendar) {
+		var calendarCmd tea.Cmd
+		m.calendar, calendarCmd = m.calendar.Update(msg)
+
+		return m, calendarCmd
+	}
+
 	return m, nil
 }
 
 func (m Model) appUpdate(msg tea.Msg) (Model, tea.Cmd) {
 	if keyPressMsg, ok := msg.(tea.KeyPressMsg); ok {
-		if isQuitKey(keyPressMsg.String()) {
+		key := keyPressMsg.String()
+		if isQuitKey(key) {
 			return m, tea.Quit
+		}
+
+		if isTodoListFocusKey(key) {
+			m.focus.Set(focus.TodoList)
+			return m, nil
+		}
+
+		if isCalendarFocusKey(key) {
+			m.focus.Set(focus.Calendar)
+			return m, nil
 		}
 	}
 
