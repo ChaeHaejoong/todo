@@ -15,19 +15,21 @@ func New() Model {
 	}
 }
 
-func (m Model) View(focused bool) string {
+func (m Model) View(width, height int, focused bool) string {
 	if m.loading {
-		return renderTodoList("fetching data...", focused)
+		return renderTodoList(width, height, "fetching data...", focused)
 	}
 
 	if m.err != nil {
 		return renderTodoList(
+			width,
+			height,
 			"Todo를 불러오지 못했습니다: "+m.err.Error(),
 			focused,
 		)
 	}
 
-	return renderTodoList(renderTodos(m.todos, m.cursor), focused)
+	return renderTodoList(width, height, renderTodos(m.todos, m.cursor), focused)
 }
 
 func (m Model) selectedTodo() (store.Todo, bool) {

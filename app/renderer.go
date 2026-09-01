@@ -2,11 +2,33 @@ package app
 
 import (
 	"charm.land/lipgloss/v2"
-	ui "github.com/chaehaejoong/todo/internal/ui"
+	"github.com/chaehaejoong/todo/internal/focus"
 )
 
-func renderApp(width, height int, views AppViews) string {
-	contentWidth, contentHeight := appContentSize(width, height)
+type AppViews struct {
+	TodoList  string
+	TodoModal string
+	Calendar  string
+}
+
+func (m Model) renderApp() string {
+	appWidth := m.width
+	appHeight := m.height
+
+	calendarWidth := 39
+	calendarHeight := 11
+
+	todoListWidth := appWidth - calendarWidth
+	todoListHeight := appHeight
+
+	modalWidth := 40
+	modalHeight := 3
+
+	views := AppViews{
+		TodoList:  m.todolist.View(todoListWidth, todoListHeight, m.focus.Is(focus.TodoList)),
+		TodoModal: m.todomodal.View(modalWidth, modalHeight, m.focus.Is(focus.TodoModal)),
+		Calendar:  m.calendar.View(calendarWidth, calendarHeight, m.focus.Is(focus.Calendar)),
+	}
 
 	mainContent := lipgloss.JoinHorizontal(
 		lipgloss.Top,
@@ -15,8 +37,8 @@ func renderApp(width, height int, views AppViews) string {
 	)
 
 	background := lipgloss.Place(
-		contentWidth,
-		contentHeight,
+		appWidth,
+		appHeight,
 		lipgloss.Left,
 		lipgloss.Top,
 		mainContent,
@@ -33,8 +55,8 @@ func renderApp(width, height int, views AppViews) string {
 		modalWidth := lipgloss.Width(views.TodoModal)
 		modalHeight := lipgloss.Height(views.TodoModal)
 
-		modalX := max(0, (contentWidth-modalWidth)/2)
-		modalY := max(0, (contentHeight-modalHeight)/2)
+		modalX := max(0, (appWidth-modalWidth)/2)
+		modalY := max(0, (appHeight-modalHeight)/2)
 
 		layers = append(
 			layers,
@@ -47,8 +69,4 @@ func renderApp(width, height int, views AppViews) string {
 
 	content := lipgloss.NewCompositor(layers...).Render()
 	return content
-}
-
-func appContentSize(width, height int) (int, int) {
-	return ui.TitledBorderContentSize(width, height)
 }

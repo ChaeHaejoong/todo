@@ -17,6 +17,6 @@ func newTodoInput() textinput.Model {
 	return input
 }
 
-func renderTodoModal(content string, focused bool) string {
-	return ui.TitledBorder(40, 3, "Append-Todo", content, focused)
+func renderTodoModal(width, height int, content string, focused bool) string {
+	return ui.TitledBorder(width, height, "Append-Todo", content, focused)
 }

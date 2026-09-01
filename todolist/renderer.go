@@ -7,8 +7,8 @@ import (
 	"github.com/chaehaejoong/todo/store"
 )
 
-func renderTodoList(content string, focused bool) string {
-	return ui.TitledBorder(100, 10, "[1] Todo", content, focused)
+func renderTodoList(width, height int, content string, focused bool) string {
+	return ui.TitledBorder(width, height, "[1] Todo", content, focused)
 }
 
 func renderTodos(todos []store.Todo, cursor int) string {

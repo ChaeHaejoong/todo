@@ -18,11 +18,11 @@ func New() Model {
 	}
 }
 
-func (m Model) View(focused bool) string {
+func (m Model) View(width, height int, focused bool) string {
 	if !m.isModalOpen {
 		return ""
 	}
-	return renderTodoModal(m.input.View(), focused)
+	return renderTodoModal(width, height, m.input.View(), focused)
 }
 
 func (m *Model) OpenModal() tea.Cmd {
