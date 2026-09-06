@@ -33,7 +33,7 @@ func (m Model) View(width, height int, focused bool) string {
 	endRow := inputRow("End", m.end.View(), m.current == endInput && focused)
 	content := lipgloss.JoinVertical(lipgloss.Left, startRow, endRow)
 
-	return ui.TitledBorder(width, height, "Clock", content, focused)
+	return ui.TitledBorder(width, height, "[4] Clock", content, focused)
 }
 
 func (m Model) StartTime() string {

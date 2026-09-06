@@ -4,6 +4,7 @@ import (
 	tea "charm.land/bubbletea/v2"
 	"github.com/chaehaejoong/todo/appointment"
 	"github.com/chaehaejoong/todo/calendar"
+	"github.com/chaehaejoong/todo/clock"
 	"github.com/chaehaejoong/todo/internal/focus"
 	"github.com/chaehaejoong/todo/todolist"
 	"github.com/chaehaejoong/todo/todomodal"
@@ -18,6 +19,7 @@ type Model struct {
 	todolist    todolist.Model
 	todomodal   todomodal.Model
 	calendar    calendar.Model
+	clock       clock.Model
 	appointment appointment.Model
 }
 
@@ -27,6 +29,7 @@ func New() Model {
 		todolist:  todolist.New(),
 		todomodal: todomodal.New(),
 		calendar:  calendar.New(),
+		clock:     clock.New(),
 	}
 }
 

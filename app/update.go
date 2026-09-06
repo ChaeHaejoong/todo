@@ -39,6 +39,20 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, calendarCmd
 	}
 
+	if m.focus.Is(focus.Appointment) {
+		var appointmentCmd tea.Cmd
+		m.appointment, appointmentCmd = m.appointment.Update(msg)
+
+		return m, appointmentCmd
+	}
+
+	if m.focus.Is(focus.Clock) {
+		var clockCmd tea.Cmd
+		m.clock, clockCmd = m.clock.Update(msg)
+
+		return m, clockCmd
+	}
+
 	return m, nil
 }
 
@@ -61,6 +75,11 @@ func (m Model) appUpdate(msg tea.Msg) (Model, tea.Cmd) {
 
 		if isAppointmentFocusKey(key) {
 			m.focus.Set(focus.Appointment)
+			return m, nil
+		}
+
+		if isClockFocusKey(key) {
+			m.focus.Set(focus.Clock)
 			return m, nil
 		}
 	}

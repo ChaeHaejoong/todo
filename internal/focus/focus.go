@@ -7,6 +7,7 @@ const (
 	TodoModal
 	Calendar
 	Appointment
+	Clock
 )
 
 type Manager struct {
