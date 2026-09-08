@@ -11,7 +11,7 @@ func New() Apptime {
 	now := time.Now()
 	date := time.Date(
 		now.Year(), now.Month(), now.Day(),
-		0, 0, 0, 0, now.Location(),
+		now.Hour(), now.Minute(), 0, 0, now.Location(),
 	)
 
 	return Apptime{
