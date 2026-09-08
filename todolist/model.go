@@ -29,7 +29,7 @@ func (m Model) View(width, height int, focused bool) string {
 		)
 	}
 
-	return renderTodoList(width, height, renderTodos(m.todos, m.cursor), focused)
+	return renderTodoList(width, height, renderTodos(width, height, m.todos, m.cursor), focused)
 }
 
 func (m Model) selectedTodo() (store.Todo, bool) {
