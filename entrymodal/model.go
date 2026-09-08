@@ -80,7 +80,7 @@ func (m *Model) OpenAppointmentEdit(appointment store.Appointment) tea.Cmd {
 	m.mode = AppointmentEdit
 	m.todo = nil
 	m.appointment = &appointment
-	m.includeTime = appointment.StartTime != "" || appointment.EndTime != ""
+	m.includeTime = appointment.Time != ""
 	m.input.SetValue(appointment.Content)
 	m.isModalOpen = true
 	return m.input.Focus()

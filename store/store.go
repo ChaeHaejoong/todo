@@ -36,8 +36,7 @@ func AppendAppointment(content string, appTime apptime.Apptime, includeTime bool
 		Date:    appTime.DateString(),
 	}
 	if includeTime {
-		appointment.StartTime = appTime.StartTimeString()
-		appointment.EndTime = appTime.EndTimeString()
+		appointment.Time = appTime.EndTimeString()
 	}
 
 	data, err := load()
@@ -92,14 +91,12 @@ func UpdateAppointment(appointment Appointment, content string, appTime apptime.
 		updated := data.Appointment[index]
 		updated.Content = content
 		if includeTime {
-			if updated.StartTime == "" && updated.EndTime == "" {
+			if updated.Time == "" {
 				updated.Date = appTime.DateString()
-				updated.StartTime = appTime.StartTimeString()
-				updated.EndTime = appTime.EndTimeString()
+				updated.Time = appTime.EndTimeString()
 			}
 		} else {
-			updated.StartTime = ""
-			updated.EndTime = ""
+			updated.Time = ""
 		}
 		data.Appointment[index] = updated
 		return save(data)

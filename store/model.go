@@ -8,11 +8,10 @@ type Todo struct {
 }
 
 type Appointment struct {
-	ID        string `json:"id"`
-	Content   string `json:"content"`
-	Date      string `json:"date,omitempty"`
-	StartTime string `json:"start_time,omitempty"`
-	EndTime   string `json:"end_time,omitempty"`
+	ID      string `json:"id"`
+	Content string `json:"content"`
+	Date    string `json:"date,omitempty"`
+	Time    string `json:"time,omitempty"`
 }
 
 type Data struct {
