@@ -10,6 +10,7 @@ import (
 
 func (m Model) renderCalendar() string {
 	var lines []string
+	date := m.appTime.GetStart()
 
 	weekdays := []string{"Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"}
 	weekdayLine := make([]string, 0, len(weekdays))
@@ -26,7 +27,7 @@ func (m Model) renderCalendar() string {
 	for day := 1; day <= m.daysInMonth(); day++ {
 		week = append(
 			week,
-			ui.CalendarCell(day == m.day, fmt.Sprintf("%d", day)),
+			ui.CalendarCell(day == date.Day(), fmt.Sprintf("%d", day)),
 		)
 		if len(week) == 7 {
 			lines = append(lines, strings.Join(week, ""))
@@ -42,7 +43,7 @@ func (m Model) renderCalendar() string {
 	}
 
 	footer := lipgloss.NewStyle().Render(
-		fmt.Sprintf("\n > %d-%d-%d", m.year, m.month, m.day),
+		fmt.Sprintf("\n > %d-%d-%d", date.Year(), date.Month(), date.Day()),
 	)
 	lines = append(lines, footer)
 

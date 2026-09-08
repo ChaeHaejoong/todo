@@ -1,36 +1,44 @@
 package calendar
 
-import "time"
+import (
+	"time"
+
+	"github.com/chaehaejoong/todo/internal/apptime"
+)
 
 type Model struct {
-	year  int
-	month time.Month
-	day   int
+	appTime *apptime.Apptime
 }
 
-func New() Model {
-	now := time.Now()
-
+func New(appTime *apptime.Apptime) Model {
 	return Model{
-		year:  now.Year(),
-		month: now.Month(),
-		day:   now.Day(),
+		appTime: appTime,
 	}
 }
 
-func (m Model) SelectedDate() time.Time {
-	return time.Date(m.year, m.month, m.day, 0, 0, 0, 0, time.Local)
-}
-
 func (m Model) daysInMonth() int {
-	return time.Date(m.year, m.month+1, 0, 0, 0, 0, 0, time.Local).Day()
+	date := m.appTime.GetStart()
+
+	return time.Date(
+		date.Year(), date.Month()+1, 0,
+		0, 0, 0, 0, time.Local,
+	).Day()
 }
 
 func (m Model) firstWeekday() int {
-	return int(time.Date(m.year, m.month, 1, 0, 0, 0, 0, time.Local).Weekday())
+	date := m.appTime.GetStart()
+
+	return int(
+		time.Date(
+			date.Year(), date.Month(), 1,
+			0, 0, 0, 0, time.Local,
+		).Weekday(),
+	)
 }
 
 func (m Model) withDay(day int) Model {
+	date := m.appTime.GetStart()
+
 	if day < 1 {
 		day = 1
 	}
@@ -38,13 +46,16 @@ func (m Model) withDay(day int) Model {
 		day = m.daysInMonth()
 	}
 
-	m.day = day
+	m.appTime.SetDate(time.Date(
+		date.Year(), date.Month(), day,
+		0, 0, 0, 0, date.Location(),
+	))
 	return m
 }
 
 func (m Model) withMonth(year int, month time.Month) Model {
+	day := m.appTime.GetStart().Day()
 	date := time.Date(year, month, 1, 0, 0, 0, 0, time.Local)
-	m.year = date.Year()
-	m.month = date.Month()
-	return m.withDay(m.day)
+	m.appTime.SetDate(date)
+	return m.withDay(day)
 }

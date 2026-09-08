@@ -8,7 +8,16 @@ type Apptime struct {
 }
 
 func New() Apptime {
-	return Apptime{}
+	now := time.Now()
+	date := time.Date(
+		now.Year(), now.Month(), now.Day(),
+		0, 0, 0, 0, now.Location(),
+	)
+
+	return Apptime{
+		start: date,
+		end:   date,
+	}
 }
 
 func (a *Apptime) SetDate(t time.Time) {

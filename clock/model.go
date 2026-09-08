@@ -3,6 +3,7 @@ package clock
 import (
 	"charm.land/bubbles/v2/textinput"
 	"charm.land/lipgloss/v2"
+	"github.com/chaehaejoong/todo/internal/apptime"
 	"github.com/chaehaejoong/todo/internal/ui"
 )
 
@@ -12,17 +13,20 @@ const (
 )
 
 type Model struct {
+	appTime apptime.Apptime
+
 	start   textinput.Model
 	end     textinput.Model
 	current int
 }
 
-func New() Model {
+func New(appTime apptime.Apptime) Model {
 	start := newTimeInput()
 	end := newTimeInput()
 	start.Focus()
 
 	return Model{
+		appTime: appTime,
 		start: start,
 		end:   end,
 	}
