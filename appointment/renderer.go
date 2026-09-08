@@ -13,7 +13,7 @@ func render(width, height int, content string, focused bool) string {
 	return ui.TitledBorder(width, height, "[4] Appointment", content, focused)
 }
 
-func renderAppointments(width, height int, appointments []store.Appointment, cursor int) string {
+func renderAppointments(width, height int, appointments []store.Appointment, cursor int, focused bool) string {
 	if len(appointments) == 0 {
 		return "No appointments"
 	}
@@ -22,7 +22,7 @@ func renderAppointments(width, height int, appointments []store.Appointment, cur
 	lines := make([]string, 0, len(appointments))
 	for index, item := range appointments {
 		content := renderAppointment(contentWidth, item)
-		lines = append(lines, ui.ListElement(content, index == cursor))
+		lines = append(lines, ui.ListElement(content, index == cursor && focused))
 	}
 	return strings.Join(lines, "\n")
 }
