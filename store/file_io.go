@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 )
 
-const dataFileName = "todos.json"
+const dataFileName = "data.json"
 
 // A missing data file is treated as an empty store.
 func load() (Data, error) {
@@ -19,7 +19,7 @@ func load() (Data, error) {
 
 	bytes, err := os.ReadFile(filepath.Join(dir, dataFileName))
 	if errors.Is(err, os.ErrNotExist) {
-		return Data{Todos: []Todo{}}, nil
+		return Data{}, nil
 	}
 	if err != nil {
 		return Data{}, fmt.Errorf("데이터 파일 읽어오는 중 에러: %w", err)

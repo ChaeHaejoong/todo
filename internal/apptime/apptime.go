@@ -2,6 +2,11 @@ package apptime
 
 import "time"
 
+const (
+	DateLayout = "2006-01-02"
+	TimeLayout = "15:04"
+)
+
 type Apptime struct {
 	start time.Time
 	end   time.Time
@@ -11,7 +16,7 @@ func New() Apptime {
 	now := time.Now()
 	date := time.Date(
 		now.Year(), now.Month(), now.Day(),
-		now.Hour(), now.Minute(), 0, 0, now.Location(),
+		0, 0, 0, 0, now.Location(),
 	)
 
 	return Apptime{
@@ -56,4 +61,16 @@ func (a Apptime) GetStart() time.Time {
 
 func (a Apptime) GetEnd() time.Time {
 	return a.end
+}
+
+func (a Apptime) DateString() string {
+	return a.start.Format(DateLayout)
+}
+
+func (a Apptime) StartTimeString() string {
+	return a.start.Format(TimeLayout)
+}
+
+func (a Apptime) EndTimeString() string {
+	return a.end.Format(TimeLayout)
 }

@@ -1,15 +1,22 @@
 package store
 
-import "github.com/google/uuid"
+import (
+	"github.com/chaehaejoong/todo/internal/apptime"
+	"github.com/google/uuid"
+)
 
 func LoadTodos() (Data, error) {
 	return load()
 }
 
-func AppendTodo(todoStr string) error {
+func AppendTodo(todoStr string, appTime apptime.Apptime, includeTime bool) error {
 	todo := Todo{
-		ID: uuid.NewString(),
+		ID:      uuid.NewString(),
 		Content: todoStr,
+		Date:    appTime.DateString(),
+	}
+	if includeTime {
+		todo.Time = appTime.EndTimeString()
 	}
 
 	data, err := load()
@@ -18,6 +25,25 @@ func AppendTodo(todoStr string) error {
 	}
 
 	data.Todos = append(data.Todos, todo)
+
+	return save(data)
+}
+
+func AppendAppointment(content string, appTime apptime.Apptime) error {
+	appointment := Appointment{
+		ID:        uuid.NewString(),
+		Content:   content,
+		Date:      appTime.DateString(),
+		StartTime: appTime.StartTimeString(),
+		EndTime:   appTime.EndTimeString(),
+	}
+
+	data, err := load()
+	if err != nil {
+		return err
+	}
+
+	data.Appointment = append(data.Appointment, appointment)
 
 	return save(data)
 }
