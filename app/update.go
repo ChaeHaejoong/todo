@@ -2,6 +2,8 @@ package app
 
 import (
 	tea "charm.land/bubbletea/v2"
+	"github.com/chaehaejoong/todo/appointment"
+	"github.com/chaehaejoong/todo/entrymodal"
 	"github.com/chaehaejoong/todo/internal/focus"
 	"github.com/chaehaejoong/todo/todolist"
 )
@@ -14,12 +16,23 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, cmd
 	}
 
+	switch msg.(type) {
+	case appointment.AppointmentLoadedMsg,
+		appointment.AppointmentLoadFailedMsg,
+		appointment.AppointmentRemovedMsg,
+		appointment.AppointmentRemoveFailedMsg,
+		entrymodal.AppointmentSubmittedMsg:
+		var appointmentCmd tea.Cmd
+		m.appointment, appointmentCmd = m.appointment.Update(msg)
+		return m, appointmentCmd
+	}
+
 	if m.focus.Is(focus.TodoModal) {
 		var todoModalCmd tea.Cmd
-		m.todomodal, todoModalCmd = m.todomodal.Update(msg)
+		m.entrymodal, todoModalCmd = m.entrymodal.Update(msg)
 
-		if !m.todomodal.IsModalOpen() {
-			m.focus.Set(focus.TodoList)
+		if !m.entrymodal.IsModalOpen() {
+			m.focus.Set(m.modalReturnFocus)
 		}
 
 		return m, todoModalCmd
@@ -82,11 +95,44 @@ func (m Model) appUpdate(msg tea.Msg) (Model, tea.Cmd) {
 			m.focus.Set(focus.Clock)
 			return m, nil
 		}
+
+		if m.focus.Is(focus.TodoList) {
+			switch key {
+			case "a":
+				m.modalReturnFocus = focus.TodoList
+				m.focus.Set(focus.TodoModal)
+				return m, m.entrymodal.OpenTodoAdd()
+			case "r":
+				selected, ok := m.todolist.SelectedTodo()
+				if ok {
+					m.modalReturnFocus = focus.TodoList
+					m.focus.Set(focus.TodoModal)
+					return m, m.entrymodal.OpenTodoEdit(selected)
+				}
+			}
+		}
+
+		if m.focus.Is(focus.Appointment) {
+			switch key {
+			case "a":
+				m.modalReturnFocus = focus.Appointment
+				m.focus.Set(focus.TodoModal)
+				return m, m.entrymodal.OpenAppointmentAdd()
+			case "r":
+				selected, ok := m.appointment.SelectedAppointment()
+				if ok {
+					m.modalReturnFocus = focus.Appointment
+					m.focus.Set(focus.TodoModal)
+					return m, m.entrymodal.OpenAppointmentEdit(selected)
+				}
+			}
+		}
 	}
 
 	if _, ok := msg.(todolist.OpenTodoModalMsg); ok {
+		m.modalReturnFocus = focus.TodoList
 		m.focus.Set(focus.TodoModal)
-		return m, m.todomodal.OpenModal()
+		return m, m.entrymodal.OpenTodoAdd()
 	}
 
 	return m, nil

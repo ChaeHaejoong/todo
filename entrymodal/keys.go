@@ -1,4 +1,4 @@
-package todomodal
+package entrymodal
 
 func isCloseModalKey(key string) bool {
 	return key == "esc"

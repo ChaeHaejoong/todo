@@ -39,3 +39,7 @@ func (m Model) selectedTodo() (store.Todo, bool) {
 
 	return m.todos[m.cursor], true
 }
+
+func (m Model) SelectedTodo() (store.Todo, bool) {
+	return m.selectedTodo()
+}

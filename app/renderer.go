@@ -29,7 +29,7 @@ func (m Model) renderApp() string {
 
 	views := AppViews{
 		TodoList:    m.todolist.View(todoListWidth, topHeight, m.focus.Is(focus.TodoList)),
-		TodoModal:   m.todomodal.View(modalWidth, modalHeight, m.focus.Is(focus.TodoModal)),
+		TodoModal:   m.entrymodal.View(modalWidth, modalHeight, m.focus.Is(focus.TodoModal)),
 		Calendar:    m.calendar.View(rightWidth, calendarHeight, m.focus.Is(focus.Calendar)),
 		Clock:       m.clock.View(rightWidth, clockHeight, m.focus.Is(focus.Clock)),
 		Appointment: m.appointment.View(appWidth, appointmentHeight, m.focus.Is(focus.Appointment)),

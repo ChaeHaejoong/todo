@@ -1,4 +1,4 @@
-package todomodal
+package entrymodal
 
 import (
 	"fmt"
@@ -20,12 +20,12 @@ func newTodoInput() textinput.Model {
 	return input
 }
 
-func renderTodoModal(width, height int, content string, includeTime, focused bool) string {
+func renderTodoModal(width, height int, content string, includeTime bool, title string, focused bool) string {
 	contentWidth, contentHeight := ui.TitledBorderContentSize(width, height)
 	option := fmt.Sprintf("[%c] time", map[bool]rune{true: 'x', false: ' '}[includeTime])
 	option = lipgloss.PlaceHorizontal(contentWidth, lipgloss.Right, option)
 	content = lipgloss.JoinVertical(lipgloss.Left, content, option)
 	content = lipgloss.Place(contentWidth, contentHeight, lipgloss.Left, lipgloss.Top, content)
 
-	return ui.TitledBorder(width, height, "Append-Todo", content, focused)
+	return ui.TitledBorder(width, height, title, content, focused)
 }
