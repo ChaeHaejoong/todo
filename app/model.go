@@ -30,9 +30,10 @@ func New() Model {
 		focus:   focus.New(),
 		apptime: apptime.New(),
 
-		todolist:  todolist.New(),
-		todomodal: todomodal.New(),
+		todolist: todolist.New(),
 	}
+
+	model.todomodal = todomodal.New(&model.apptime)
 
 	model.calendar = calendar.New(&model.apptime)
 	model.clock = clock.New(&model.apptime)

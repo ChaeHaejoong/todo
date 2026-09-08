@@ -7,3 +7,7 @@ func isCloseModalKey(key string) bool {
 func isAppendTodoKey(key string) bool {
 	return key == "enter"
 }
+
+func isToggleTimeKey(key string) bool {
+	return key == "tab"
+}

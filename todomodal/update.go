@@ -9,13 +9,18 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 	if keyPressMsg, ok := msg.(tea.KeyPressMsg); ok {
 		key := keyPressMsg.String()
 
+		if isToggleTimeKey(key) {
+			m.includeTime = !m.includeTime
+			return m, nil
+		}
+
 		if isCloseModalKey(key) {
 			m.CloseModal()
 			return m, nil
 		}
 
 		if isAppendTodoKey(key) {
-			if err := AppendTodo(m.input.Value()); err != nil {
+			if err := AppendTodo(m.input.Value(), *m.appTime, m.includeTime); err != nil {
 				return m, nil
 			}
 			m.CloseModal()
