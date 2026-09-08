@@ -36,7 +36,7 @@ func AppendAppointment(content string, appTime apptime.Apptime, includeTime bool
 		Date:    appTime.DateString(),
 	}
 	if includeTime {
-		appointment.Time = appTime.EndTimeString()
+		appointment.Time = appTime.StartTimeString()
 	}
 
 	data, err := load()
@@ -65,7 +65,7 @@ func UpdateTodo(todo Todo, content string, appTime apptime.Apptime, includeTime 
 		if includeTime {
 			if updated.Time == "" {
 				updated.Date = appTime.DateString()
-				updated.Time = appTime.EndTimeString()
+				updated.Time = appTime.StartTimeString()
 			}
 		} else {
 			updated.Time = ""

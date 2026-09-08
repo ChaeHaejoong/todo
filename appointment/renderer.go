@@ -36,9 +36,9 @@ func renderAppointment(width int, appointment store.Appointment) string {
 
 	contentWidth := lipgloss.Width(content)
 	metadataWidth := lipgloss.Width(metadata)
-	separatorWidth := width - contentWidth - metadataWidth
+	separatorWidth := width - contentWidth - metadataWidth - 2
 	if separatorWidth >= 1 {
-		return content + strings.Repeat("-", separatorWidth) + metadata
+		return content + " " + strings.Repeat("-", separatorWidth) + metadata + "~"
 	}
 
 	metadataLine := strings.Repeat("-", max(1, width-metadataWidth)) + metadata
