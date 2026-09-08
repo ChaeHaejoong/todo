@@ -9,5 +9,5 @@ func (m Model) View(width, height int, focused bool) string {
 		m.cursor,
 		focused,
 	)
-	return ui.TitledBorder(width, height, "[4] Clock", content, focused)
+	return ui.TitledBorder(width, height, "[3] Clock", content, focused)
 }
