@@ -32,7 +32,11 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.entrymodal, todoModalCmd = m.entrymodal.Update(msg)
 
 		if !m.entrymodal.IsModalOpen() {
-			m.focus.Set(m.modalReturnFocus)
+			returnFocus := m.modalReturnFocus
+			m.focus.Set(returnFocus)
+			if isComponentFocus(returnFocus) {
+				return m, tea.Batch(todoModalCmd, fcitxCmd("-c"))
+			}
 		}
 
 		return m, todoModalCmd
@@ -77,21 +81,37 @@ func (m Model) appUpdate(msg tea.Msg) (Model, tea.Cmd) {
 		}
 
 		if isTodoListFocusKey(key) {
+			if !m.focus.Is(focus.TodoList) {
+				m.focus.Set(focus.TodoList)
+				return m, fcitxCmd("-c")
+			}
 			m.focus.Set(focus.TodoList)
 			return m, nil
 		}
 
 		if isCalendarFocusKey(key) {
+			if !m.focus.Is(focus.Calendar) {
+				m.focus.Set(focus.Calendar)
+				return m, fcitxCmd("-c")
+			}
 			m.focus.Set(focus.Calendar)
 			return m, nil
 		}
 
 		if isAppointmentFocusKey(key) {
+			if !m.focus.Is(focus.Appointment) {
+				m.focus.Set(focus.Appointment)
+				return m, fcitxCmd("-c")
+			}
 			m.focus.Set(focus.Appointment)
 			return m, nil
 		}
 
 		if isClockFocusKey(key) {
+			if !m.focus.Is(focus.Clock) {
+				m.focus.Set(focus.Clock)
+				return m, fcitxCmd("-c")
+			}
 			m.focus.Set(focus.Clock)
 			return m, nil
 		}
@@ -101,13 +121,13 @@ func (m Model) appUpdate(msg tea.Msg) (Model, tea.Cmd) {
 			case "a":
 				m.modalReturnFocus = focus.TodoList
 				m.focus.Set(focus.TodoModal)
-				return m, m.entrymodal.OpenTodoAdd()
+				return m, tea.Batch(m.entrymodal.OpenTodoAdd(), fcitxCmd("-o"))
 			case "r":
 				selected, ok := m.todolist.SelectedTodo()
 				if ok {
 					m.modalReturnFocus = focus.TodoList
 					m.focus.Set(focus.TodoModal)
-					return m, m.entrymodal.OpenTodoEdit(selected)
+					return m, tea.Batch(m.entrymodal.OpenTodoEdit(selected), fcitxCmd("-o"))
 				}
 			}
 		}
@@ -117,13 +137,13 @@ func (m Model) appUpdate(msg tea.Msg) (Model, tea.Cmd) {
 			case "a":
 				m.modalReturnFocus = focus.Appointment
 				m.focus.Set(focus.TodoModal)
-				return m, m.entrymodal.OpenAppointmentAdd()
+				return m, tea.Batch(m.entrymodal.OpenAppointmentAdd(), fcitxCmd("-o"))
 			case "r":
 				selected, ok := m.appointment.SelectedAppointment()
 				if ok {
 					m.modalReturnFocus = focus.Appointment
 					m.focus.Set(focus.TodoModal)
-					return m, m.entrymodal.OpenAppointmentEdit(selected)
+					return m, tea.Batch(m.entrymodal.OpenAppointmentEdit(selected), fcitxCmd("-o"))
 				}
 			}
 		}
@@ -132,7 +152,7 @@ func (m Model) appUpdate(msg tea.Msg) (Model, tea.Cmd) {
 	if _, ok := msg.(todolist.OpenTodoModalMsg); ok {
 		m.modalReturnFocus = focus.TodoList
 		m.focus.Set(focus.TodoModal)
-		return m, m.entrymodal.OpenTodoAdd()
+		return m, tea.Batch(m.entrymodal.OpenTodoAdd(), fcitxCmd("-o"))
 	}
 
 	return m, nil
