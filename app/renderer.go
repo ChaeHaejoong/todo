@@ -18,8 +18,8 @@ func (m Model) renderApp() string {
 	appHeight := m.height
 
 	rightWidth := 39
-	appointmentHeight := 20 
-	topHeight := max(0, appHeight-appointmentHeight)
+	appointmentHeight := 22 
+	topHeight := appHeight-appointmentHeight
 	clockHeight := 7
 	calendarHeight := topHeight-clockHeight
 	todoListWidth := appWidth-rightWidth
