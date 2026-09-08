@@ -17,26 +17,22 @@ func (m Model) renderApp() string {
 	appWidth := m.width
 	appHeight := m.height
 
-	calendarWidth := 39
-	calendarHeight := 11
-	clockWidth := 18
-	clockHeight := appHeight - calendarHeight
-	rightWidth := max(calendarWidth, clockWidth)
-
-	appointmentWidth := 39
-	appointmentHeight := appHeight
-	todoListWidth := appWidth - appointmentWidth - rightWidth
-	todoListHeight := appHeight
+	rightWidth := 39
+	appointmentHeight := 20 
+	topHeight := max(0, appHeight-appointmentHeight)
+	clockHeight := 7
+	calendarHeight := topHeight-clockHeight
+	todoListWidth := appWidth-rightWidth
 
 	modalWidth := 40
 	modalHeight := 3
 
 	views := AppViews{
-		TodoList:    m.todolist.View(todoListWidth, todoListHeight, m.focus.Is(focus.TodoList)),
+		TodoList:    m.todolist.View(todoListWidth, topHeight, m.focus.Is(focus.TodoList)),
 		TodoModal:   m.todomodal.View(modalWidth, modalHeight, m.focus.Is(focus.TodoModal)),
 		Calendar:    m.calendar.View(rightWidth, calendarHeight, m.focus.Is(focus.Calendar)),
 		Clock:       m.clock.View(rightWidth, clockHeight, m.focus.Is(focus.Clock)),
-		Appointment: m.appointment.View(appointmentWidth, appointmentHeight, m.focus.Is(focus.Appointment)),
+		Appointment: m.appointment.View(appWidth, appointmentHeight, m.focus.Is(focus.Appointment)),
 	}
 
 	rightContent := lipgloss.JoinVertical(
@@ -48,8 +44,12 @@ func (m Model) renderApp() string {
 	mainContent := lipgloss.JoinHorizontal(
 		lipgloss.Top,
 		views.TodoList,
-		views.Appointment,
 		rightContent,
+	)
+	mainContent = lipgloss.JoinVertical(
+		lipgloss.Left,
+		mainContent,
+		views.Appointment,
 	)
 
 	background := lipgloss.Place(
